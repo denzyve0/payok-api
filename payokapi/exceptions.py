@@ -5,17 +5,12 @@ class PayOkError(Exception):
 
 class PayOkAPIError(Exception):
     def __init__(self, message: str, code: Optional[int] = None) -> None:
-        super().__init__(message)
-        
-        if code:
-            self.code = code
+        self.code = int(code) if code else None
         self.message = message
-        
+        super().__init__(self.code)
+    
     def __str__(self) -> str:
-        message = self.message
-        if self.code:
-            return f"[{self.code}] " + message
-        return message
+        return f"{f'[{self.code}] ' if self.code else ''}{self.message}"
 
 class PayOkServerError(PayOkAPIError):
     def __init__(self, method: str, message: str):

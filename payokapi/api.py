@@ -4,6 +4,7 @@ from .base import BaseClient
 from .types import (
     Balance,
     Transaction,
+    Payout,
 )
 from .exceptions import PayOkAPIError
 
@@ -51,4 +52,21 @@ class PayOk(BaseClient):
             return Transaction(**resp['1'])
         
         return [Transaction(**trans) for trans in resp.values()]
+    
+    async def get_payouts(self,
+                         payout_id: Optional[int] = None,
+                         offset: Optional[int] = None):
+        data = {"API_ID": self.__api_id, "API_KEY": self.__api_key}
+        
+        if payout_id:
+            data["payout_id"] = payout_id
+        if offset:
+            data["offset"] = offset
+            
+        resp = await self._request("post", self._BASE_API+"/payout", data=data)
+        
+        if payout_id:
+            return Payout(**resp['1'])
+        
+        return [Payout(**payou) for payou in resp.values()]
         

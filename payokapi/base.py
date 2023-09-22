@@ -62,7 +62,7 @@ class BaseClient:
             if resp.get('status') == 'error':
                 error_code = resp.get('error_code')
                 error_text = resp.get('error_text', resp.get('text'))
-                raise PayOkAPIError("{0}".format(error_text), code=error_code)
+                raise PayOkAPIError(code=error_code, message=error_text)
             return resp
         
         if response.status == HTTPStatus.INTERNAL_SERVER_ERROR:

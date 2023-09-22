@@ -1,4 +1,5 @@
 from .base import PayOkType
+from ..enums import Currency, Methods
 
 from datetime import date
 
@@ -6,11 +7,11 @@ class Transaction(PayOkType):
     transaction: int
     email: str
     amount: float
-    currency: str
+    currency: Currency
     comission_percent: float
     comission_fixed: float
     amount_profit: float
-    method: str
+    method: Methods
     payment_id: int
     description: str
     date: date
